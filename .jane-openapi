@@ -1,0 +1,10 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'directory' => __DIR__ . '/lib',
+    'namespace' => 'Petstore',
+    'openapi-file' => 'https://petstore3.swagger.io/api/v3/openapi.json',
+    'use-fixer' => true,
+];
