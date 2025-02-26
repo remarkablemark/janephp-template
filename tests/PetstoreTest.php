@@ -2,20 +2,24 @@
 
 declare(strict_types=1);
 
+use Http\Client\Common\Plugin\AuthenticationPlugin;
+use Http\Message\Authentication\Bearer;
 use Petstore\Petstore;
 use Petstore\Client;
 use Petstore\Exception\ApiException;
 use Petstore\Model\Pet;
 
-it('gets client from Petstore class', function (): void {
+it('instantiates Petstore client', function (): void {
     $petstore = new Petstore('API_KEY', 'https://petstore.swagger.io');
     $client = $petstore->client;
     expect($client)->toBeInstanceOf(Client::class);
     expect(method_exists($client, 'addPet'))->toBeTrue();
 });
 
-it('gets client from Client::create', function (): void {
-    $client = Client::create();
+it('instantiates client from Client::create', function (): void {
+    $bearer = new Bearer('API_KEY');
+    $plugins = [new AuthenticationPlugin($bearer)];
+    $client = Client::create(null, $plugins);
     expect($client)->toBeInstanceOf(Client::class);
     expect(method_exists($client, 'addPet'))->toBeTrue();
 });
