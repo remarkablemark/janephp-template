@@ -14,13 +14,19 @@ PHP >=8.0
 
 ## Install
 
-Install with [Composer](http://getcomposer.org/):
+Install the package with [Composer](http://getcomposer.org/):
 
 ```sh
 composer require petstore/sdk
 ```
 
-Use Composer's [autoload](https://getcomposer.org/doc/01-basic-usage.md#autoloading):
+If you're missing a package providing `psr/http-client-implementation`:
+
+```sh
+composer require php-http/guzzle7-adapter
+```
+
+Add [autoloading](https://getcomposer.org/doc/01-basic-usage.md#autoloading):
 
 ```php
 require_once 'vendor/autoload.php';
@@ -28,7 +34,7 @@ require_once 'vendor/autoload.php';
 
 ## Usage
 
-Instantiate the client:
+Instantiate the SDK:
 
 ```php
 use Petstore\Petstore;
