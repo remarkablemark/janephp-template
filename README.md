@@ -14,7 +14,7 @@ PHP >=8.0
 
 ## Install
 
-Install the package with [Composer](http://getcomposer.org/):
+Install the package with [Composer](https://getcomposer.org/):
 
 ```sh
 composer require petstore/sdk
