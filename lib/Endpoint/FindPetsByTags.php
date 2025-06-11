@@ -23,7 +23,7 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
      * @var array $tags Tags to filter by
      *            }
      *
-     * @param array $accept Accept content header application/xml|application/json
+     * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(array $queryParameters = [], array $accept = [])
     {
@@ -49,7 +49,7 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -81,6 +81,8 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
         if (400 === $status) {
             throw new \Petstore\Exception\FindPetsByTagsBadRequestException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

@@ -16,6 +16,8 @@ class LoginUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     protected $accept;
 
     /**
+     * Log into the system.
+     *
      * @param array $queryParameters {
      *
      * @var string $username The user name for login
@@ -81,6 +83,8 @@ class LoginUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
         if (400 === $status) {
             throw new \Petstore\Exception\LoginUserBadRequestException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

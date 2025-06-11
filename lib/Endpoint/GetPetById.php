@@ -20,7 +20,7 @@ class GetPetById extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
      * Returns a single pet.
      *
      * @param int   $petId  ID of pet to return
-     * @param array $accept Accept content header application/xml|application/json
+     * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(int $petId, array $accept = [])
     {
@@ -46,7 +46,7 @@ class GetPetById extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -71,6 +71,8 @@ class GetPetById extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
         if (404 === $status) {
             throw new \Petstore\Exception\GetPetByIdNotFoundException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

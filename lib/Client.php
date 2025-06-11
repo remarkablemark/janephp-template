@@ -16,11 +16,12 @@ class Client extends Runtime\Client\Client
      * Add a new pet to the store.
      *
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept Accept content header application/xml|application/json
+     * @param array  $accept Accept content header application/json|application/xml
      *
      * @return Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws Exception\AddPetMethodNotAllowedException
+     * @throws Exception\AddPetBadRequestException
+     * @throws Exception\AddPetUnprocessableEntityException
      */
     public function addPet(Model\Pet $requestBody, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -31,13 +32,13 @@ class Client extends Runtime\Client\Client
      * Update an existing pet by Id.
      *
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept Accept content header application/xml|application/json
+     * @param array  $accept Accept content header application/json|application/xml
      *
      * @return Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
      * @throws Exception\UpdatePetBadRequestException
      * @throws Exception\UpdatePetNotFoundException
-     * @throws Exception\UpdatePetMethodNotAllowedException
+     * @throws Exception\UpdatePetUnprocessableEntityException
      */
     public function updatePet(Model\Pet $requestBody, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -53,7 +54,7 @@ class Client extends Runtime\Client\Client
      *             }
      *
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept Accept content header application/xml|application/json
+     * @param array  $accept Accept content header application/json|application/xml
      *
      * @return Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
      *
@@ -73,7 +74,7 @@ class Client extends Runtime\Client\Client
      *            }
      *
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept Accept content header application/xml|application/json
+     * @param array  $accept Accept content header application/json|application/xml
      *
      * @return Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
      *
@@ -85,6 +86,8 @@ class Client extends Runtime\Client\Client
     }
 
     /**
+     * Delete a pet.
+     *
      * @param int   $petId            Pet id to delete
      * @param array $headerParameters {
      *
@@ -107,7 +110,7 @@ class Client extends Runtime\Client\Client
      *
      * @param int    $petId  ID of pet to return
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept Accept content header application/xml|application/json
+     * @param array  $accept Accept content header application/json|application/xml
      *
      * @return Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
@@ -120,6 +123,8 @@ class Client extends Runtime\Client\Client
     }
 
     /**
+     * Updates a pet resource based on the form data.
+     *
      * @param int   $petId           ID of pet that needs to be updated
      * @param array $queryParameters {
      *
@@ -127,18 +132,21 @@ class Client extends Runtime\Client\Client
      * @var string $status Status of pet that needs to be updated
      *             }
      *
-     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/json|application/xml
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws Exception\UpdatePetWithFormMethodNotAllowedException
+     * @throws Exception\UpdatePetWithFormBadRequestException
      */
-    public function updatePetWithForm(int $petId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
+    public function updatePetWithForm(int $petId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new Endpoint\UpdatePetWithForm($petId, $queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdatePetWithForm($petId, $queryParameters, $accept), $fetch);
     }
 
     /**
+     * Upload image of the pet.
+     *
      * @param int                                                    $petId           ID of pet to update
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
      * @param array                                                  $queryParameters {
@@ -149,6 +157,9 @@ class Client extends Runtime\Client\Client
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return Model\ApiResponse|\Psr\Http\Message\ResponseInterface|null
+     *
+     * @throws Exception\UploadFileBadRequestException
+     * @throws Exception\UploadFileNotFoundException
      */
     public function uploadFile(int $petId, $requestBody = null, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
@@ -172,7 +183,8 @@ class Client extends Runtime\Client\Client
      *
      * @return Model\Order|\Psr\Http\Message\ResponseInterface|null
      *
-     * @throws Exception\PlaceOrderMethodNotAllowedException
+     * @throws Exception\PlaceOrderBadRequestException
+     * @throws Exception\PlaceOrderUnprocessableEntityException
      */
     public function placeOrder(?Model\Order $requestBody = null, string $fetch = self::FETCH_OBJECT)
     {
@@ -180,7 +192,7 @@ class Client extends Runtime\Client\Client
     }
 
     /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors.
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
      *
      * @param int    $orderId ID of the order that needs to be deleted
      * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
@@ -200,7 +212,7 @@ class Client extends Runtime\Client\Client
      *
      * @param int    $orderId ID of order that needs to be fetched
      * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept  Accept content header application/xml|application/json
+     * @param array  $accept  Accept content header application/json|application/xml
      *
      * @return Model\Order|\Psr\Http\Message\ResponseInterface|null
      *
@@ -230,7 +242,7 @@ class Client extends Runtime\Client\Client
      *
      * @param Model\User[]|null $requestBody
      * @param string            $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array             $accept      Accept content header application/xml|application/json
+     * @param array             $accept      Accept content header application/json|application/xml
      *
      * @return Model\User|\Psr\Http\Message\ResponseInterface|null
      */
@@ -240,6 +252,8 @@ class Client extends Runtime\Client\Client
     }
 
     /**
+     * Log into the system.
+     *
      * @param array $queryParameters {
      *
      * @var string $username The user name for login
@@ -285,9 +299,11 @@ class Client extends Runtime\Client\Client
     }
 
     /**
-     * @param string $username The name that needs to be fetched. Use user1 for testing.
+     * Get user detail based on username.
+     *
+     * @param string $username The name that needs to be fetched. Use user1 for testing
      * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
-     * @param array  $accept   Accept content header application/xml|application/json
+     * @param array  $accept   Accept content header application/json|application/xml
      *
      * @return Model\User|\Psr\Http\Message\ResponseInterface|null
      *
@@ -302,10 +318,13 @@ class Client extends Runtime\Client\Client
     /**
      * This can only be done by the logged in user.
      *
-     * @param string $username name that needs to be updated
+     * @param string $username name that need to be deleted
      * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Psr\Http\Message\ResponseInterface|null
+     *
+     * @throws Exception\UpdateUserBadRequestException
+     * @throws Exception\UpdateUserNotFoundException
      */
     public function updateUser(string $username, ?Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT)
     {

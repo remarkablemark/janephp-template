@@ -16,6 +16,8 @@ class DeletePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     protected $petId;
 
     /**
+     * Delete a pet.
+     *
      * @param int   $petId            Pet id to delete
      * @param array $headerParameters {
      *
@@ -63,9 +65,14 @@ class DeletePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
+        if (200 === $status) {
+            return null;
+        }
         if (400 === $status) {
             throw new \Petstore\Exception\DeletePetBadRequestException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

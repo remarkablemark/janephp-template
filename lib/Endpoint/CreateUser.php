@@ -67,9 +67,11 @@ class CreateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (mb_strpos($contentType, 'application/json') !== false) {
+        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Petstore\Model\User', 'json');
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

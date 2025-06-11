@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-class PlaceOrderMethodNotAllowedException extends MethodNotAllowedException
+class UpdatePetWithFormBadRequestException extends BadRequestException
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface

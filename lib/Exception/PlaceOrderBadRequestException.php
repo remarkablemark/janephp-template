@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-class UpdatePetMethodNotAllowedException extends MethodNotAllowedException
+class PlaceOrderBadRequestException extends BadRequestException
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -19,7 +19,7 @@ class UpdatePetMethodNotAllowedException extends MethodNotAllowedException
 
     public function __construct(?\Psr\Http\Message\ResponseInterface $response = null)
     {
-        parent::__construct('Validation exception');
+        parent::__construct('Invalid input');
         $this->response = $response;
     }
 

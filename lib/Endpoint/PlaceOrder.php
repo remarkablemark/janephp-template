@@ -55,7 +55,8 @@ class PlaceOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     /**
      * @return \Petstore\Model\Order|null
      *
-     * @throws \Petstore\Exception\PlaceOrderMethodNotAllowedException
+     * @throws \Petstore\Exception\PlaceOrderBadRequestException
+     * @throws \Petstore\Exception\PlaceOrderUnprocessableEntityException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
@@ -64,9 +65,14 @@ class PlaceOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Petstore\Model\Order', 'json');
         }
-        if (405 === $status) {
-            throw new \Petstore\Exception\PlaceOrderMethodNotAllowedException($response);
+        if (400 === $status) {
+            throw new \Petstore\Exception\PlaceOrderBadRequestException($response);
         }
+        if (422 === $status) {
+            throw new \Petstore\Exception\PlaceOrderUnprocessableEntityException($response);
+        }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

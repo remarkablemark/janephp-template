@@ -18,7 +18,7 @@ class AddPet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petstore\
     /**
      * Add a new pet to the store.
      *
-     * @param array $accept Accept content header application/xml|application/json
+     * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(\Petstore\Model\Pet $requestBody, array $accept = [])
     {
@@ -54,7 +54,7 @@ class AddPet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petstore\
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -63,7 +63,8 @@ class AddPet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petstore\
     /**
      * @return \Petstore\Model\Pet|null
      *
-     * @throws \Petstore\Exception\AddPetMethodNotAllowedException
+     * @throws \Petstore\Exception\AddPetBadRequestException
+     * @throws \Petstore\Exception\AddPetUnprocessableEntityException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
@@ -72,9 +73,14 @@ class AddPet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petstore\
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Petstore\Model\Pet', 'json');
         }
-        if (405 === $status) {
-            throw new \Petstore\Exception\AddPetMethodNotAllowedException($response);
+        if (400 === $status) {
+            throw new \Petstore\Exception\AddPetBadRequestException($response);
         }
+        if (422 === $status) {
+            throw new \Petstore\Exception\AddPetUnprocessableEntityException($response);
+        }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

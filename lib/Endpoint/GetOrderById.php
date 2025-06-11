@@ -20,7 +20,7 @@ class GetOrderById extends \Petstore\Runtime\Client\BaseEndpoint implements \Pet
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
      *
      * @param int   $orderId ID of order that needs to be fetched
-     * @param array $accept  Accept content header application/xml|application/json
+     * @param array $accept  Accept content header application/json|application/xml
      */
     public function __construct(int $orderId, array $accept = [])
     {
@@ -46,7 +46,7 @@ class GetOrderById extends \Petstore\Runtime\Client\BaseEndpoint implements \Pet
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -71,6 +71,8 @@ class GetOrderById extends \Petstore\Runtime\Client\BaseEndpoint implements \Pet
         if (404 === $status) {
             throw new \Petstore\Exception\GetOrderByIdNotFoundException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

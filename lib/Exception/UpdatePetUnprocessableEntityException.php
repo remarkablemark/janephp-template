@@ -10,7 +10,7 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-class UpdatePetWithFormMethodNotAllowedException extends MethodNotAllowedException
+class UpdatePetUnprocessableEntityException extends UnprocessableEntityException
 {
     /**
      * @var \Psr\Http\Message\ResponseInterface
@@ -19,7 +19,7 @@ class UpdatePetWithFormMethodNotAllowedException extends MethodNotAllowedExcepti
 
     public function __construct(?\Psr\Http\Message\ResponseInterface $response = null)
     {
-        parent::__construct('Invalid input');
+        parent::__construct('Validation exception');
         $this->response = $response;
     }
 

@@ -19,7 +19,7 @@ class CreateUsersWithListInput extends \Petstore\Runtime\Client\BaseEndpoint imp
      * Creates list of users with given input array.
      *
      * @param \Petstore\Model\User[]|null $requestBody
-     * @param array                       $accept      Accept content header application/xml|application/json
+     * @param array                       $accept      Accept content header application/json|application/xml
      */
     public function __construct(?array $requestBody = null, array $accept = [])
     {
@@ -49,7 +49,7 @@ class CreateUsersWithListInput extends \Petstore\Runtime\Client\BaseEndpoint imp
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;

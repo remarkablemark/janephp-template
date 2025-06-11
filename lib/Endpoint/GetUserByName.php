@@ -17,8 +17,10 @@ class GetUserByName extends \Petstore\Runtime\Client\BaseEndpoint implements \Pe
     protected $accept;
 
     /**
-     * @param string $username The name that needs to be fetched. Use user1 for testing.
-     * @param array  $accept   Accept content header application/xml|application/json
+     * Get user detail based on username.
+     *
+     * @param string $username The name that needs to be fetched. Use user1 for testing
+     * @param array  $accept   Accept content header application/json|application/xml
      */
     public function __construct(string $username, array $accept = [])
     {
@@ -44,7 +46,7 @@ class GetUserByName extends \Petstore\Runtime\Client\BaseEndpoint implements \Pe
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -69,6 +71,8 @@ class GetUserByName extends \Petstore\Runtime\Client\BaseEndpoint implements \Pe
         if (404 === $status) {
             throw new \Petstore\Exception\GetUserByNameNotFoundException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

@@ -16,7 +16,7 @@ class DeleteOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Pets
     protected $orderId;
 
     /**
-     * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors.
+     * For valid response try integer IDs with value < 1000. Anything above 1000 or non-integers will generate API errors.
      *
      * @param int $orderId ID of the order that needs to be deleted
      */
@@ -50,12 +50,17 @@ class DeleteOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Pets
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
+        if (200 === $status) {
+            return null;
+        }
         if (400 === $status) {
             throw new \Petstore\Exception\DeleteOrderBadRequestException($response);
         }
         if (404 === $status) {
             throw new \Petstore\Exception\DeleteOrderNotFoundException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array
