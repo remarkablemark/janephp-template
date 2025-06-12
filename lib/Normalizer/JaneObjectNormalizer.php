@@ -12,7 +12,6 @@ namespace Petstore\Normalizer;
 
 use Petstore\Runtime\Normalizer\CheckArray;
 use Petstore\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -20,175 +19,80 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
-    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+{
+    use DenormalizerAwareTrait;
+    use NormalizerAwareTrait;
+    use CheckArray;
+    use ValidatorTrait;
+    protected $normalizers = [
+        \Petstore\Model\Order::class => OrderNormalizer::class,
+
+        \Petstore\Model\Category::class => CategoryNormalizer::class,
+
+        \Petstore\Model\User::class => UserNormalizer::class,
+
+        \Petstore\Model\Tag::class => TagNormalizer::class,
+
+        \Petstore\Model\Pet::class => PetNormalizer::class,
+
+        \Petstore\Model\ApiResponse::class => ApiResponseNormalizer::class,
+
+        \Jane\Component\JsonSchemaRuntime\Reference::class => \Petstore\Runtime\Normalizer\ReferenceNormalizer::class,
+    ];
+    protected $normalizersCache = [];
+
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        use DenormalizerAwareTrait;
-        use NormalizerAwareTrait;
-        use CheckArray;
-        use ValidatorTrait;
-        protected $normalizers = [
-            \Petstore\Model\Order::class => OrderNormalizer::class,
-
-            \Petstore\Model\Customer::class => CustomerNormalizer::class,
-
-            \Petstore\Model\Address::class => AddressNormalizer::class,
-
-            \Petstore\Model\Category::class => CategoryNormalizer::class,
-
-            \Petstore\Model\User::class => UserNormalizer::class,
-
-            \Petstore\Model\Tag::class => TagNormalizer::class,
-
-            \Petstore\Model\Pet::class => PetNormalizer::class,
-
-            \Petstore\Model\ApiResponse::class => ApiResponseNormalizer::class,
-
-            \Jane\Component\JsonSchemaRuntime\Reference::class => \Petstore\Runtime\Normalizer\ReferenceNormalizer::class,
-        ];
-        protected $normalizersCache = [];
-
-        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
-        {
-            return array_key_exists($type, $this->normalizers);
-        }
-
-        public function supportsNormalization($data, $format = null, array $context = []): bool
-        {
-            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-        }
-
-        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-        {
-            $normalizerClass = $this->normalizers[get_class($object)];
-            $normalizer = $this->getNormalizer($normalizerClass);
-
-            return $normalizer->normalize($object, $format, $context);
-        }
-
-        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-        {
-            $denormalizerClass = $this->normalizers[$type];
-            $denormalizer = $this->getNormalizer($denormalizerClass);
-
-            return $denormalizer->denormalize($data, $type, $format, $context);
-        }
-
-        private function getNormalizer(string $normalizerClass)
-        {
-            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-        }
-
-        private function initNormalizer(string $normalizerClass)
-        {
-            $normalizer = new $normalizerClass();
-            $normalizer->setNormalizer($this->normalizer);
-            $normalizer->setDenormalizer($this->denormalizer);
-            $this->normalizersCache[$normalizerClass] = $normalizer;
-
-            return $normalizer;
-        }
-
-        public function getSupportedTypes(?string $format = null): array
-        {
-            return [
-                \Petstore\Model\Order::class => false,
-                \Petstore\Model\Customer::class => false,
-                \Petstore\Model\Address::class => false,
-                \Petstore\Model\Category::class => false,
-                \Petstore\Model\User::class => false,
-                \Petstore\Model\Tag::class => false,
-                \Petstore\Model\Pet::class => false,
-                \Petstore\Model\ApiResponse::class => false,
-                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
-            ];
-        }
+        return array_key_exists($type, $this->normalizers);
     }
-} else {
-    class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        use DenormalizerAwareTrait;
-        use NormalizerAwareTrait;
-        use CheckArray;
-        use ValidatorTrait;
-        protected $normalizers = [
-            \Petstore\Model\Order::class => OrderNormalizer::class,
+        return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
+    }
 
-            \Petstore\Model\Customer::class => CustomerNormalizer::class,
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        $normalizerClass = $this->normalizers[get_class($data)];
+        $normalizer = $this->getNormalizer($normalizerClass);
 
-            \Petstore\Model\Address::class => AddressNormalizer::class,
+        return $normalizer->normalize($data, $format, $context);
+    }
 
-            \Petstore\Model\Category::class => CategoryNormalizer::class,
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    {
+        $denormalizerClass = $this->normalizers[$type];
+        $denormalizer = $this->getNormalizer($denormalizerClass);
 
-            \Petstore\Model\User::class => UserNormalizer::class,
+        return $denormalizer->denormalize($data, $type, $format, $context);
+    }
 
-            \Petstore\Model\Tag::class => TagNormalizer::class,
+    private function getNormalizer(string $normalizerClass)
+    {
+        return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
+    }
 
-            \Petstore\Model\Pet::class => PetNormalizer::class,
+    private function initNormalizer(string $normalizerClass)
+    {
+        $normalizer = new $normalizerClass();
+        $normalizer->setNormalizer($this->normalizer);
+        $normalizer->setDenormalizer($this->denormalizer);
+        $this->normalizersCache[$normalizerClass] = $normalizer;
 
-            \Petstore\Model\ApiResponse::class => ApiResponseNormalizer::class,
+        return $normalizer;
+    }
 
-            \Jane\Component\JsonSchemaRuntime\Reference::class => \Petstore\Runtime\Normalizer\ReferenceNormalizer::class,
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [
+            \Petstore\Model\Order::class => false,
+            \Petstore\Model\Category::class => false,
+            \Petstore\Model\User::class => false,
+            \Petstore\Model\Tag::class => false,
+            \Petstore\Model\Pet::class => false,
+            \Petstore\Model\ApiResponse::class => false,
+            \Jane\Component\JsonSchemaRuntime\Reference::class => false,
         ];
-        protected $normalizersCache = [];
-
-        public function supportsDenormalization($data, $type, $format = null, array $context = []): bool
-        {
-            return array_key_exists($type, $this->normalizers);
-        }
-
-        public function supportsNormalization($data, $format = null, array $context = []): bool
-        {
-            return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
-        }
-
-        /**
-         * @return array|string|int|float|bool|\ArrayObject|null
-         */
-        public function normalize($object, $format = null, array $context = [])
-        {
-            $normalizerClass = $this->normalizers[get_class($object)];
-            $normalizer = $this->getNormalizer($normalizerClass);
-
-            return $normalizer->normalize($object, $format, $context);
-        }
-
-        public function denormalize($data, $type, $format = null, array $context = [])
-        {
-            $denormalizerClass = $this->normalizers[$type];
-            $denormalizer = $this->getNormalizer($denormalizerClass);
-
-            return $denormalizer->denormalize($data, $type, $format, $context);
-        }
-
-        private function getNormalizer(string $normalizerClass)
-        {
-            return $this->normalizersCache[$normalizerClass] ?? $this->initNormalizer($normalizerClass);
-        }
-
-        private function initNormalizer(string $normalizerClass)
-        {
-            $normalizer = new $normalizerClass();
-            $normalizer->setNormalizer($this->normalizer);
-            $normalizer->setDenormalizer($this->denormalizer);
-            $this->normalizersCache[$normalizerClass] = $normalizer;
-
-            return $normalizer;
-        }
-
-        public function getSupportedTypes(?string $format = null): array
-        {
-            return [
-                \Petstore\Model\Order::class => false,
-                \Petstore\Model\Customer::class => false,
-                \Petstore\Model\Address::class => false,
-                \Petstore\Model\Category::class => false,
-                \Petstore\Model\User::class => false,
-                \Petstore\Model\Tag::class => false,
-                \Petstore\Model\Pet::class => false,
-                \Petstore\Model\ApiResponse::class => false,
-                \Jane\Component\JsonSchemaRuntime\Reference::class => false,
-            ];
-        }
     }
 }

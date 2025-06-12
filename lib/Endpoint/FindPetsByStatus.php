@@ -23,7 +23,7 @@ class FindPetsByStatus extends \Petstore\Runtime\Client\BaseEndpoint implements 
      * @var string $status Status values that need to be considered for filter
      *             }
      *
-     * @param array $accept Accept content header application/xml|application/json
+     * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(array $queryParameters = [], array $accept = [])
     {
@@ -49,7 +49,7 @@ class FindPetsByStatus extends \Petstore\Runtime\Client\BaseEndpoint implements 
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -81,6 +81,8 @@ class FindPetsByStatus extends \Petstore\Runtime\Client\BaseEndpoint implements 
         if (400 === $status) {
             throw new \Petstore\Exception\FindPetsByStatusBadRequestException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

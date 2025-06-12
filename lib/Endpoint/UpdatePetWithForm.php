@@ -14,19 +14,25 @@ class UpdatePetWithForm extends \Petstore\Runtime\Client\BaseEndpoint implements
 {
     use \Petstore\Runtime\Client\EndpointTrait;
     protected $petId;
+    protected $accept;
 
     /**
+     * Updates a pet resource based on the form data.
+     *
      * @param int   $petId           ID of pet that needs to be updated
      * @param array $queryParameters {
      *
      * @var string $name Name of pet that needs to be updated
      * @var string $status Status of pet that needs to be updated
      *             }
+     *
+     * @param array $accept Accept content header application/json|application/xml
      */
-    public function __construct(int $petId, array $queryParameters = [])
+    public function __construct(int $petId, array $queryParameters = [], array $accept = [])
     {
         $this->petId = $petId;
         $this->queryParameters = $queryParameters;
+        $this->accept = $accept;
     }
 
     public function getMethod(): string
@@ -44,6 +50,15 @@ class UpdatePetWithForm extends \Petstore\Runtime\Client\BaseEndpoint implements
         return [[], null];
     }
 
+    public function getExtraHeaders(): array
+    {
+        if (empty($this->accept)) {
+            return ['Accept' => ['application/json', 'application/xml']];
+        }
+
+        return $this->accept;
+    }
+
     protected function getQueryOptionsResolver(): \Symfony\Component\OptionsResolver\OptionsResolver
     {
         $optionsResolver = parent::getQueryOptionsResolver();
@@ -57,17 +72,22 @@ class UpdatePetWithForm extends \Petstore\Runtime\Client\BaseEndpoint implements
     }
 
     /**
-     * @return null
+     * @return \Petstore\Model\Pet|null
      *
-     * @throws \Petstore\Exception\UpdatePetWithFormMethodNotAllowedException
+     * @throws \Petstore\Exception\UpdatePetWithFormBadRequestException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
-        if (405 === $status) {
-            throw new \Petstore\Exception\UpdatePetWithFormMethodNotAllowedException($response);
+        if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
+            return $serializer->deserialize($body, 'Petstore\Model\Pet', 'json');
         }
+        if (400 === $status) {
+            throw new \Petstore\Exception\UpdatePetWithFormBadRequestException($response);
+        }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

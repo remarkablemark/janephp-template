@@ -13,7 +13,6 @@ namespace Petstore\Normalizer;
 use Jane\Component\JsonSchemaRuntime\Reference;
 use Petstore\Runtime\Normalizer\CheckArray;
 use Petstore\Runtime\Normalizer\ValidatorTrait;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\DenormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
@@ -21,227 +20,112 @@ use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerAwareTrait;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
-if (!class_exists(Kernel::class) or (Kernel::MAJOR_VERSION >= 7 or Kernel::MAJOR_VERSION === 6 and Kernel::MINOR_VERSION === 4)) {
-    class PetNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+class PetNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+{
+    use DenormalizerAwareTrait;
+    use NormalizerAwareTrait;
+    use CheckArray;
+    use ValidatorTrait;
+
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        use DenormalizerAwareTrait;
-        use NormalizerAwareTrait;
-        use CheckArray;
-        use ValidatorTrait;
-
-        public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
-        {
-            return $type === \Petstore\Model\Pet::class;
-        }
-
-        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-        {
-            return is_object($data) && get_class($data) === \Petstore\Model\Pet::class;
-        }
-
-        public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
-        {
-            if (isset($data['$ref'])) {
-                return new Reference($data['$ref'], $context['document-origin']);
-            }
-            if (isset($data['$recursiveRef'])) {
-                return new Reference($data['$recursiveRef'], $context['document-origin']);
-            }
-            $object = new \Petstore\Model\Pet();
-            if (null === $data || false === \is_array($data)) {
-                return $object;
-            }
-            if (\array_key_exists('id', $data)) {
-                $object->setId($data['id']);
-                unset($data['id']);
-            }
-            if (\array_key_exists('name', $data)) {
-                $object->setName($data['name']);
-                unset($data['name']);
-            }
-            if (\array_key_exists('category', $data)) {
-                $object->setCategory($this->denormalizer->denormalize($data['category'], \Petstore\Model\Category::class, 'json', $context));
-                unset($data['category']);
-            }
-            if (\array_key_exists('photoUrls', $data)) {
-                $values = [];
-                foreach ($data['photoUrls'] as $value) {
-                    $values[] = $value;
-                }
-                $object->setPhotoUrls($values);
-                unset($data['photoUrls']);
-            }
-            if (\array_key_exists('tags', $data)) {
-                $values_1 = [];
-                foreach ($data['tags'] as $value_1) {
-                    $values_1[] = $this->denormalizer->denormalize($value_1, \Petstore\Model\Tag::class, 'json', $context);
-                }
-                $object->setTags($values_1);
-                unset($data['tags']);
-            }
-            if (\array_key_exists('status', $data)) {
-                $object->setStatus($data['status']);
-                unset($data['status']);
-            }
-            foreach ($data as $key => $value_2) {
-                if (preg_match('/.*/', (string) $key)) {
-                    $object[$key] = $value_2;
-                }
-            }
-
-            return $object;
-        }
-
-        public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
-        {
-            $data = [];
-            if ($object->isInitialized('id') && null !== $object->getId()) {
-                $data['id'] = $object->getId();
-            }
-            $data['name'] = $object->getName();
-            if ($object->isInitialized('category') && null !== $object->getCategory()) {
-                $data['category'] = $this->normalizer->normalize($object->getCategory(), 'json', $context);
-            }
-            $values = [];
-            foreach ($object->getPhotoUrls() as $value) {
-                $values[] = $value;
-            }
-            $data['photoUrls'] = $values;
-            if ($object->isInitialized('tags') && null !== $object->getTags()) {
-                $values_1 = [];
-                foreach ($object->getTags() as $value_1) {
-                    $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
-                }
-                $data['tags'] = $values_1;
-            }
-            if ($object->isInitialized('status') && null !== $object->getStatus()) {
-                $data['status'] = $object->getStatus();
-            }
-            foreach ($object as $key => $value_2) {
-                if (preg_match('/.*/', (string) $key)) {
-                    $data[$key] = $value_2;
-                }
-            }
-
-            return $data;
-        }
-
-        public function getSupportedTypes(?string $format = null): array
-        {
-            return [\Petstore\Model\Pet::class => false];
-        }
+        return $type === \Petstore\Model\Pet::class;
     }
-} else {
-    class PetNormalizer implements DenormalizerInterface, NormalizerInterface, DenormalizerAwareInterface, NormalizerAwareInterface
+
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
-        use DenormalizerAwareTrait;
-        use NormalizerAwareTrait;
-        use CheckArray;
-        use ValidatorTrait;
+        return is_object($data) && get_class($data) === \Petstore\Model\Pet::class;
+    }
 
-        public function supportsDenormalization($data, $type, ?string $format = null, array $context = []): bool
-        {
-            return $type === \Petstore\Model\Pet::class;
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    {
+        if (isset($data['$ref'])) {
+            return new Reference($data['$ref'], $context['document-origin']);
         }
-
-        public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
-        {
-            return is_object($data) && get_class($data) === \Petstore\Model\Pet::class;
+        if (isset($data['$recursiveRef'])) {
+            return new Reference($data['$recursiveRef'], $context['document-origin']);
         }
-
-        public function denormalize($data, $type, $format = null, array $context = [])
-        {
-            if (isset($data['$ref'])) {
-                return new Reference($data['$ref'], $context['document-origin']);
-            }
-            if (isset($data['$recursiveRef'])) {
-                return new Reference($data['$recursiveRef'], $context['document-origin']);
-            }
-            $object = new \Petstore\Model\Pet();
-            if (null === $data || false === \is_array($data)) {
-                return $object;
-            }
-            if (\array_key_exists('id', $data)) {
-                $object->setId($data['id']);
-                unset($data['id']);
-            }
-            if (\array_key_exists('name', $data)) {
-                $object->setName($data['name']);
-                unset($data['name']);
-            }
-            if (\array_key_exists('category', $data)) {
-                $object->setCategory($this->denormalizer->denormalize($data['category'], \Petstore\Model\Category::class, 'json', $context));
-                unset($data['category']);
-            }
-            if (\array_key_exists('photoUrls', $data)) {
-                $values = [];
-                foreach ($data['photoUrls'] as $value) {
-                    $values[] = $value;
-                }
-                $object->setPhotoUrls($values);
-                unset($data['photoUrls']);
-            }
-            if (\array_key_exists('tags', $data)) {
-                $values_1 = [];
-                foreach ($data['tags'] as $value_1) {
-                    $values_1[] = $this->denormalizer->denormalize($value_1, \Petstore\Model\Tag::class, 'json', $context);
-                }
-                $object->setTags($values_1);
-                unset($data['tags']);
-            }
-            if (\array_key_exists('status', $data)) {
-                $object->setStatus($data['status']);
-                unset($data['status']);
-            }
-            foreach ($data as $key => $value_2) {
-                if (preg_match('/.*/', (string) $key)) {
-                    $object[$key] = $value_2;
-                }
-            }
-
+        $object = new \Petstore\Model\Pet();
+        if (null === $data || false === \is_array($data)) {
             return $object;
         }
-
-        /**
-         * @return array|string|int|float|bool|\ArrayObject|null
-         */
-        public function normalize($object, $format = null, array $context = [])
-        {
-            $data = [];
-            if ($object->isInitialized('id') && null !== $object->getId()) {
-                $data['id'] = $object->getId();
-            }
-            $data['name'] = $object->getName();
-            if ($object->isInitialized('category') && null !== $object->getCategory()) {
-                $data['category'] = $this->normalizer->normalize($object->getCategory(), 'json', $context);
-            }
+        if (\array_key_exists('id', $data)) {
+            $object->setId($data['id']);
+            unset($data['id']);
+        }
+        if (\array_key_exists('name', $data)) {
+            $object->setName($data['name']);
+            unset($data['name']);
+        }
+        if (\array_key_exists('category', $data)) {
+            $object->setCategory($this->denormalizer->denormalize($data['category'], \Petstore\Model\Category::class, 'json', $context));
+            unset($data['category']);
+        }
+        if (\array_key_exists('photoUrls', $data)) {
             $values = [];
-            foreach ($object->getPhotoUrls() as $value) {
+            foreach ($data['photoUrls'] as $value) {
                 $values[] = $value;
             }
-            $data['photoUrls'] = $values;
-            if ($object->isInitialized('tags') && null !== $object->getTags()) {
-                $values_1 = [];
-                foreach ($object->getTags() as $value_1) {
-                    $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
-                }
-                $data['tags'] = $values_1;
+            $object->setPhotoUrls($values);
+            unset($data['photoUrls']);
+        }
+        if (\array_key_exists('tags', $data)) {
+            $values_1 = [];
+            foreach ($data['tags'] as $value_1) {
+                $values_1[] = $this->denormalizer->denormalize($value_1, \Petstore\Model\Tag::class, 'json', $context);
             }
-            if ($object->isInitialized('status') && null !== $object->getStatus()) {
-                $data['status'] = $object->getStatus();
+            $object->setTags($values_1);
+            unset($data['tags']);
+        }
+        if (\array_key_exists('status', $data)) {
+            $object->setStatus($data['status']);
+            unset($data['status']);
+        }
+        foreach ($data as $key => $value_2) {
+            if (preg_match('/.*/', (string) $key)) {
+                $object[$key] = $value_2;
             }
-            foreach ($object as $key => $value_2) {
-                if (preg_match('/.*/', (string) $key)) {
-                    $data[$key] = $value_2;
-                }
-            }
-
-            return $data;
         }
 
-        public function getSupportedTypes(?string $format = null): array
-        {
-            return [\Petstore\Model\Pet::class => false];
+        return $object;
+    }
+
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    {
+        $dataArray = [];
+        if ($data->isInitialized('id') && null !== $data->getId()) {
+            $dataArray['id'] = $data->getId();
         }
+        $dataArray['name'] = $data->getName();
+        if ($data->isInitialized('category') && null !== $data->getCategory()) {
+            $dataArray['category'] = $this->normalizer->normalize($data->getCategory(), 'json', $context);
+        }
+        $values = [];
+        foreach ($data->getPhotoUrls() as $value) {
+            $values[] = $value;
+        }
+        $dataArray['photoUrls'] = $values;
+        if ($data->isInitialized('tags') && null !== $data->getTags()) {
+            $values_1 = [];
+            foreach ($data->getTags() as $value_1) {
+                $values_1[] = $this->normalizer->normalize($value_1, 'json', $context);
+            }
+            $dataArray['tags'] = $values_1;
+        }
+        if ($data->isInitialized('status') && null !== $data->getStatus()) {
+            $dataArray['status'] = $data->getStatus();
+        }
+        foreach ($data as $key => $value_2) {
+            if (preg_match('/.*/', (string) $key)) {
+                $dataArray[$key] = $value_2;
+            }
+        }
+
+        return $dataArray;
+    }
+
+    public function getSupportedTypes(?string $format = null): array
+    {
+        return [\Petstore\Model\Pet::class => false];
     }
 }

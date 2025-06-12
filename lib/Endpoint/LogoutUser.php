@@ -36,6 +36,9 @@ class LogoutUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
+        if (200 === $status) {
+            return null;
+        }
 
         return null;
     }

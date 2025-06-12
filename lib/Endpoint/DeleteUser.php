@@ -50,12 +50,17 @@ class DeleteUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
+        if (200 === $status) {
+            return null;
+        }
         if (400 === $status) {
             throw new \Petstore\Exception\DeleteUserBadRequestException($response);
         }
         if (404 === $status) {
             throw new \Petstore\Exception\DeleteUserNotFoundException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

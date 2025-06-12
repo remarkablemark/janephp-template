@@ -18,7 +18,7 @@ class UpdatePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     /**
      * Update an existing pet by Id.
      *
-     * @param array $accept Accept content header application/xml|application/json
+     * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(\Petstore\Model\Pet $requestBody, array $accept = [])
     {
@@ -54,7 +54,7 @@ class UpdatePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     public function getExtraHeaders(): array
     {
         if (empty($this->accept)) {
-            return ['Accept' => ['application/xml', 'application/json']];
+            return ['Accept' => ['application/json', 'application/xml']];
         }
 
         return $this->accept;
@@ -65,7 +65,7 @@ class UpdatePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
      *
      * @throws \Petstore\Exception\UpdatePetBadRequestException
      * @throws \Petstore\Exception\UpdatePetNotFoundException
-     * @throws \Petstore\Exception\UpdatePetMethodNotAllowedException
+     * @throws \Petstore\Exception\UpdatePetUnprocessableEntityException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
@@ -80,9 +80,11 @@ class UpdatePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
         if (404 === $status) {
             throw new \Petstore\Exception\UpdatePetNotFoundException($response);
         }
-        if (405 === $status) {
-            throw new \Petstore\Exception\UpdatePetMethodNotAllowedException($response);
+        if (422 === $status) {
+            throw new \Petstore\Exception\UpdatePetUnprocessableEntityException($response);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

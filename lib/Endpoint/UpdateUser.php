@@ -18,7 +18,7 @@ class UpdateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     /**
      * This can only be done by the logged in user.
      *
-     * @param string $username name that needs to be updated
+     * @param string $username name that need to be deleted
      */
     public function __construct(string $username, ?\Petstore\Model\User $requestBody = null)
     {
@@ -53,11 +53,23 @@ class UpdateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
 
     /**
      * @return null
+     *
+     * @throws \Petstore\Exception\UpdateUserBadRequestException
+     * @throws \Petstore\Exception\UpdateUserNotFoundException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
+        if (200 === $status) {
+            return null;
+        }
+        if (400 === $status) {
+            throw new \Petstore\Exception\UpdateUserBadRequestException($response);
+        }
+        if (404 === $status) {
+            throw new \Petstore\Exception\UpdateUserNotFoundException($response);
+        }
 
         return null;
     }

@@ -44,6 +44,8 @@ class GetInventory extends \Petstore\Runtime\Client\BaseEndpoint implements \Pet
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return json_decode($body);
         }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

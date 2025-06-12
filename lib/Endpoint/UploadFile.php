@@ -16,6 +16,8 @@ class UploadFile extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     protected $petId;
 
     /**
+     * Upload image of the pet.
+     *
      * @param int                                                    $petId           ID of pet to update
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
      * @param array                                                  $queryParameters {
@@ -67,6 +69,9 @@ class UploadFile extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
 
     /**
      * @return \Petstore\Model\ApiResponse|null
+     *
+     * @throws \Petstore\Exception\UploadFileBadRequestException
+     * @throws \Petstore\Exception\UploadFileNotFoundException
      */
     protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
@@ -75,6 +80,14 @@ class UploadFile extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
         if (is_null($contentType) === false && (200 === $status && mb_strpos($contentType, 'application/json') !== false)) {
             return $serializer->deserialize($body, 'Petstore\Model\ApiResponse', 'json');
         }
+        if (400 === $status) {
+            throw new \Petstore\Exception\UploadFileBadRequestException($response);
+        }
+        if (404 === $status) {
+            throw new \Petstore\Exception\UploadFileNotFoundException($response);
+        }
+
+        return null;
     }
 
     public function getAuthenticationScopes(): array

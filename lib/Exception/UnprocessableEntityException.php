@@ -10,10 +10,10 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-class MethodNotAllowedException extends \RuntimeException implements ClientException
+class UnprocessableEntityException extends \RuntimeException implements ClientException
 {
     public function __construct(string $message)
     {
-        parent::__construct($message, 405);
+        parent::__construct($message, 422);
     }
 }
