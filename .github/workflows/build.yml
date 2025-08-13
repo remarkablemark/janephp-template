@@ -53,7 +53,7 @@ jobs:
           gh pr create
           --base master
           --head feat/lib
-          --fill
+          --title 'feat(lib): generate code'
         env:
           GH_TOKEN: ${{ github.token }}
         continue-on-error: true
