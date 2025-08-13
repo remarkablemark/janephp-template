@@ -55,6 +55,7 @@ jobs:
           --base master
           --head feat/lib
           --title 'feat(lib): generate code'
+          --body ''
         env:
           GH_TOKEN: ${{ github.token }}
         continue-on-error: true
