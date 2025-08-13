@@ -43,9 +43,10 @@ jobs:
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         uses: stefanzweifel/git-auto-commit-action@v6
         with:
-          commit_message: 'feat(lib): generate code'
           add_options: '-A'
           branch: 'feat/lib'
+          commit_message: 'feat(lib): generate code'
+          push_options: '--force'
 
       - name: Create Pull Request with GitHub CLI
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
