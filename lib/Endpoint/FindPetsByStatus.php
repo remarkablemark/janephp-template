@@ -60,7 +60,7 @@ class FindPetsByStatus extends \Petstore\Runtime\Client\BaseEndpoint implements 
         $optionsResolver = parent::getQueryOptionsResolver();
         $optionsResolver->setDefined(['status']);
         $optionsResolver->setRequired([]);
-        $optionsResolver->setDefaults(['status' => 'available']);
+        $optionsResolver->setDefaults([]);
         $optionsResolver->addAllowedTypes('status', ['string']);
 
         return $optionsResolver;
