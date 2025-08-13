@@ -59,7 +59,7 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
     {
         $optionsResolver = parent::getQueryOptionsResolver();
         $optionsResolver->setDefined(['tags']);
-        $optionsResolver->setRequired([]);
+        $optionsResolver->setRequired(['tags']);
         $optionsResolver->setDefaults([]);
         $optionsResolver->addAllowedTypes('tags', ['array']);
 
