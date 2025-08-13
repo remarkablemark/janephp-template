@@ -2,8 +2,8 @@ name: dependabot
 on: pull_request_target
 
 permissions:
-  pull-requests: write
   contents: write
+  pull-requests: write
 
 jobs:
   dependabot:

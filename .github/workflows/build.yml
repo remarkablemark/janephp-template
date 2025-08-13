@@ -1,9 +1,15 @@
 name: build
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    # run daily: https://crontab.cronhub.io/
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 permissions:
-  pull-requests: write
   contents: write
+  pull-requests: write
 
 jobs:
   build:
@@ -12,6 +18,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -23,9 +31,29 @@ jobs:
         run: composer build
 
       - name: Check Git working tree
+        if: github.event_name == 'push' || github.event_name == 'pull_request'
         run: |
           if [[ $(git diff --stat) != '' ]]; then
             echo 'Detected uncommitted changes. See status below:'
             git diff
             exit 1
           fi
+
+      - name: Git commit and push
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        uses: stefanzweifel/git-auto-commit-action@v6
+        with:
+          commit_message: 'feat(lib): generate code'
+          add_options: '-A'
+          branch: 'feat/lib'
+
+      - name: Create Pull Request with GitHub CLI
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+        run: >
+          gh pr create
+          --base master
+          --head feat/lib
+          --fill
+        env:
+          GH_TOKEN: ${{ github.token }}
+        continue-on-error: true
