@@ -17,7 +17,7 @@ class PlaceOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     /**
      * Place a new order in the store.
      */
-    public function __construct(?\Petstore\Model\Order $requestBody = null)
+    public function __construct(\Petstore\Model\Order $requestBody = null)
     {
         $this->body = $requestBody;
     }
@@ -58,7 +58,7 @@ class PlaceOrder extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
      * @throws \Petstore\Exception\PlaceOrderBadRequestException
      * @throws \Petstore\Exception\PlaceOrderUnprocessableEntityException
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();

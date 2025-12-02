@@ -21,7 +21,7 @@ class CreateUsersWithListInput extends \Petstore\Runtime\Client\BaseEndpoint imp
      * @param \Petstore\Model\User[]|null $requestBody
      * @param array                       $accept      Accept content header application/json|application/xml
      */
-    public function __construct(?array $requestBody = null, array $accept = [])
+    public function __construct(array $requestBody = null, array $accept = [])
     {
         $this->body = $requestBody;
         $this->accept = $accept;
@@ -58,7 +58,7 @@ class CreateUsersWithListInput extends \Petstore\Runtime\Client\BaseEndpoint imp
     /**
      * @return \Petstore\Model\User|null
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();

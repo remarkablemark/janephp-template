@@ -20,7 +20,7 @@ class CreateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
      *
      * @param array $accept Accept content header application/json|application/xml
      */
-    public function __construct(?\Petstore\Model\User $requestBody = null, array $accept = [])
+    public function __construct(\Petstore\Model\User $requestBody = null, array $accept = [])
     {
         $this->body = $requestBody;
         $this->accept = $accept;
@@ -63,7 +63,7 @@ class CreateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     /**
      * @return \Petstore\Model\User|null
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();

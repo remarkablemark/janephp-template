@@ -20,7 +20,7 @@ class UpdateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
      *
      * @param string $username name that need to be deleted
      */
-    public function __construct(string $username, ?\Petstore\Model\User $requestBody = null)
+    public function __construct(string $username, \Petstore\Model\User $requestBody = null)
     {
         $this->username = $username;
         $this->body = $requestBody;
@@ -57,7 +57,7 @@ class UpdateUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
      * @throws \Petstore\Exception\UpdateUserBadRequestException
      * @throws \Petstore\Exception\UpdateUserNotFoundException
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
