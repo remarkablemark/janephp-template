@@ -10,7 +10,7 @@ PHP library for [Petstore](https://petstore3.swagger.io/). Code is generated usi
 
 ### Version
 
-PHP >=8.0
+PHP >=8.1
 
 ## Install
 
