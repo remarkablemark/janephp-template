@@ -20,7 +20,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          tools: php-cs-fixer:3
+          tools: php-cs-fixer:3.22
 
       - name: Run php-cs-fixer
         run: php-cs-fixer fix .
