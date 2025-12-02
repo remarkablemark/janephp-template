@@ -10,6 +10,4 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-interface ServerException extends ApiException
-{
-}
+interface ServerException extends ApiException {}

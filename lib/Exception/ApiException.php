@@ -10,6 +10,4 @@ declare(strict_types=1);
 
 namespace Petstore\Exception;
 
-interface ApiException extends \Throwable
-{
-}
+interface ApiException extends \Throwable {}
