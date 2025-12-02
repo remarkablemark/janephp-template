@@ -27,17 +27,17 @@ class ApiResponseNormalizer implements DenormalizerInterface, NormalizerInterfac
     use CheckArray;
     use ValidatorTrait;
 
-    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
     {
         return $type === \Petstore\Model\ApiResponse::class;
     }
 
-    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
     {
         return is_object($data) && get_class($data) === \Petstore\Model\ApiResponse::class;
     }
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
+    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
     {
         if (isset($data['$ref'])) {
             return new Reference($data['$ref'], $context['document-origin']);
@@ -70,7 +70,7 @@ class ApiResponseNormalizer implements DenormalizerInterface, NormalizerInterfac
         return $object;
     }
 
-    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $data, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $dataArray = [];
         if ($data->isInitialized('code') && null !== $data->getCode()) {
@@ -91,7 +91,7 @@ class ApiResponseNormalizer implements DenormalizerInterface, NormalizerInterfac
         return $dataArray;
     }
 
-    public function getSupportedTypes(?string $format = null): array
+    public function getSupportedTypes(string $format = null): array
     {
         return [\Petstore\Model\ApiResponse::class => false];
     }
