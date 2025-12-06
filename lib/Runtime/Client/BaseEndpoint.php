@@ -43,6 +43,12 @@ abstract class BaseEndpoint implements Endpoint
         $optionsResolved = array_map(static function ($value) {
             return $value ?? '';
         }, $optionsResolved);
+        $allowReserved = $this->getQueryAllowReserved();
+        foreach ($optionsResolved as $key => $value) {
+            if (!in_array($key, $allowReserved, true)) {
+                $optionsResolved[$key] = urlencode($value);
+            }
+        }
 
         return http_build_query($optionsResolved, '', '&', \PHP_QUERY_RFC3986);
     }
@@ -55,6 +61,11 @@ abstract class BaseEndpoint implements Endpoint
     protected function getQueryOptionsResolver(): OptionsResolver
     {
         return new OptionsResolver();
+    }
+
+    protected function getQueryAllowReserved(): array
+    {
+        return [];
     }
 
     protected function getHeadersOptionsResolver(): OptionsResolver
