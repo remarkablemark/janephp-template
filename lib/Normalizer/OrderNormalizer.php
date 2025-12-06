@@ -98,7 +98,7 @@ class OrderNormalizer implements DenormalizerInterface, NormalizerInterface, Den
             $dataArray['quantity'] = $data->getQuantity();
         }
         if ($data->isInitialized('shipDate') && null !== $data->getShipDate()) {
-            $dataArray['shipDate'] = $data->getShipDate()?->format('Y-m-d\TH:i:sP');
+            $dataArray['shipDate'] = $data->getShipDate()->format('Y-m-d\TH:i:sP');
         }
         if ($data->isInitialized('status') && null !== $data->getStatus()) {
             $dataArray['status'] = $data->getStatus();

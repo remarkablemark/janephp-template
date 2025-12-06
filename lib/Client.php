@@ -16,8 +16,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * Add a new pet to the store.
      *
      * @param \Petstore\Model\Pet $requestBody
-     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array               $accept      Accept content header application/json|application/xml
+     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
@@ -33,8 +33,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * Update an existing pet by Id.
      *
      * @param \Petstore\Model\Pet $requestBody
-     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array               $accept      Accept content header application/json|application/xml
+     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
@@ -55,8 +55,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * @var string $status Status values that need to be considered for filter
      *             }
      *
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
      *
@@ -75,8 +75,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * @var array $tags Tags to filter by
      *            }
      *
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
      *
@@ -111,8 +111,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * Returns a single pet.
      *
      * @param int    $petId  ID of pet to return
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
@@ -134,8 +134,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * @var string $status Status of pet that needs to be updated
      *             }
      *
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
      *
@@ -214,8 +214,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
      *
      * @param int    $orderId ID of order that needs to be fetched
-     * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept  Accept content header application/json|application/xml
+     * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\Order|\Psr\Http\Message\ResponseInterface|null
      *
@@ -231,8 +231,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * This can only be done by the logged in user.
      *
      * @param \Petstore\Model\User|null $requestBody
-     * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array                     $accept      Accept content header application/json|application/xml
+     * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
      */
@@ -245,8 +245,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * Creates list of users with given input array.
      *
      * @param \Petstore\Model\User[]|null $requestBody
-     * @param string                      $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array                       $accept      Accept content header application/json|application/xml
+     * @param string                      $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
      */
@@ -264,8 +264,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * @var string $password The password for login in clear text
      *             }
      *
-     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept Accept content header application/xml|application/json
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Psr\Http\Message\ResponseInterface|null
      *
@@ -306,8 +306,8 @@ class Client extends \Petstore\Runtime\Client\Client
      * Get user detail based on username.
      *
      * @param string $username The name that needs to be fetched. Use user1 for testing
-     * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      * @param array  $accept   Accept content header application/json|application/xml
+     * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
      *
