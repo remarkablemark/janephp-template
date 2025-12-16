@@ -19,7 +19,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array               $accept      Accept content header application/json|application/xml
      * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\AddPetBadRequestException
      * @throws \Petstore\Exception\AddPetUnprocessableEntityException
@@ -36,7 +36,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array               $accept      Accept content header application/json|application/xml
      * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\UpdatePetBadRequestException
      * @throws \Petstore\Exception\UpdatePetNotFoundException
@@ -58,7 +58,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\FindPetsByStatusBadRequestException
      */
@@ -78,7 +78,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet[]|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\FindPetsByTagsBadRequestException
      */
@@ -98,7 +98,7 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\DeletePetBadRequestException
      */
@@ -114,7 +114,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\GetPetByIdBadRequestException
      * @throws \Petstore\Exception\GetPetByIdNotFoundException
@@ -137,7 +137,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Pet|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\UpdatePetWithFormBadRequestException
      */
@@ -158,7 +158,7 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\ApiResponse|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\ApiResponse|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\UploadFileBadRequestException
      * @throws \Petstore\Exception\UploadFileNotFoundException
@@ -171,7 +171,7 @@ class Client extends \Petstore\Runtime\Client\Client
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
     public function getInventory(string $fetch = self::FETCH_OBJECT)
     {
@@ -184,7 +184,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param \Petstore\Model\Order|null $requestBody
      * @param string                     $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Order|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Order|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\PlaceOrderBadRequestException
      * @throws \Petstore\Exception\PlaceOrderUnprocessableEntityException
@@ -200,7 +200,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param int    $orderId ID of the order that needs to be deleted
      * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\DeleteOrderBadRequestException
      * @throws \Petstore\Exception\DeleteOrderNotFoundException
@@ -217,7 +217,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept  Accept content header application/json|application/xml
      * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\Order|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\Order|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\GetOrderByIdBadRequestException
      * @throws \Petstore\Exception\GetOrderByIdNotFoundException
@@ -234,7 +234,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array                     $accept      Accept content header application/json|application/xml
      * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
      */
     public function createUser(Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -248,7 +248,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array                       $accept      Accept content header application/json|application/xml
      * @param string                      $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
      */
     public function createUsersWithListInput(array $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
@@ -267,7 +267,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/xml|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\LoginUserBadRequestException
      */
@@ -279,7 +279,7 @@ class Client extends \Petstore\Runtime\Client\Client
     /**
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      */
     public function logoutUser(string $fetch = self::FETCH_OBJECT)
     {
@@ -292,7 +292,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param string $username The name that needs to be deleted
      * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\DeleteUserBadRequestException
      * @throws \Petstore\Exception\DeleteUserNotFoundException
@@ -309,7 +309,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept   Accept content header application/json|application/xml
      * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Petstore\Model\User|\Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\GetUserByNameBadRequestException
      * @throws \Petstore\Exception\GetUserByNameNotFoundException
@@ -326,7 +326,7 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param \Petstore\Model\User|null $requestBody
      * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return \Psr\Http\Message\ResponseInterface|null
+     * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
      * @throws \Petstore\Exception\UpdateUserBadRequestException
      * @throws \Petstore\Exception\UpdateUserNotFoundException
