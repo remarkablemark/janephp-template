@@ -26,7 +26,7 @@
     "require-dev": {
         "jane-php/open-api-3": "7.10.1",
         "nyholm/psr7": "1.8.2",
-        "friendsofphp/php-cs-fixer": "3.22",
+        "friendsofphp/php-cs-fixer": "3.92.1",
         "pestphp/pest": "^1.23 || ^2.0",
         "php-http/guzzle7-adapter": "1.1.0",
         "symfony/http-kernel": "6.4"
