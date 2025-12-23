@@ -26,33 +26,33 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
     use CheckArray;
     use ValidatorTrait;
     protected $normalizers = [
-        \Petstore\Model\Order::class => \Petstore\Normalizer\OrderNormalizer::class,
+        \Petstore\Model\Order::class => OrderNormalizer::class,
 
-        \Petstore\Model\Category::class => \Petstore\Normalizer\CategoryNormalizer::class,
+        \Petstore\Model\Category::class => CategoryNormalizer::class,
 
-        \Petstore\Model\User::class => \Petstore\Normalizer\UserNormalizer::class,
+        \Petstore\Model\User::class => UserNormalizer::class,
 
-        \Petstore\Model\Tag::class => \Petstore\Normalizer\TagNormalizer::class,
+        \Petstore\Model\Tag::class => TagNormalizer::class,
 
-        \Petstore\Model\Pet::class => \Petstore\Normalizer\PetNormalizer::class,
+        \Petstore\Model\Pet::class => PetNormalizer::class,
 
-        \Petstore\Model\ApiResponse::class => \Petstore\Normalizer\ApiResponseNormalizer::class,
+        \Petstore\Model\ApiResponse::class => ApiResponseNormalizer::class,
 
         \Jane\Component\JsonSchemaRuntime\Reference::class => \Petstore\Runtime\Normalizer\ReferenceNormalizer::class,
     ];
     protected $normalizersCache = [];
 
-    public function supportsDenormalization(mixed $data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return array_key_exists($type, $this->normalizers);
     }
 
-    public function supportsNormalization(mixed $data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return is_object($data) && array_key_exists(get_class($data), $this->normalizers);
     }
 
-    public function normalize(mixed $data, string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
+    public function normalize(mixed $data, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         $normalizerClass = $this->normalizers[get_class($data)];
         $normalizer = $this->getNormalizer($normalizerClass);
@@ -60,7 +60,7 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         return $normalizer->normalize($data, $format, $context);
     }
 
-    public function denormalize(mixed $data, string $type, string $format = null, array $context = []): mixed
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         $denormalizerClass = $this->normalizers[$type];
         $denormalizer = $this->getNormalizer($denormalizerClass);
@@ -83,7 +83,7 @@ class JaneObjectNormalizer implements DenormalizerInterface, NormalizerInterface
         return $normalizer;
     }
 
-    public function getSupportedTypes(string $format = null): array
+    public function getSupportedTypes(?string $format = null): array
     {
         return [
             \Petstore\Model\Order::class => false,
