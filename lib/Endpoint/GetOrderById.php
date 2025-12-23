@@ -58,7 +58,7 @@ class GetOrderById extends \Petstore\Runtime\Client\BaseEndpoint implements \Pet
      * @throws \Petstore\Exception\GetOrderByIdBadRequestException
      * @throws \Petstore\Exception\GetOrderByIdNotFoundException
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();

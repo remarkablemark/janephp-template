@@ -10,41 +10,39 @@ declare(strict_types=1);
 
 namespace Petstore;
 
-class Client extends \Petstore\Runtime\Client\Client
+class Client extends Runtime\Client\Client
 {
     /**
      * Add a new pet to the store.
      *
-     * @param \Petstore\Model\Pet $requestBody
-     * @param array               $accept      Accept content header application/json|application/xml
-     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\AddPetBadRequestException
-     * @throws \Petstore\Exception\AddPetUnprocessableEntityException
+     * @throws Exception\AddPetBadRequestException
+     * @throws Exception\AddPetUnprocessableEntityException
      */
     public function addPet(Model\Pet $requestBody, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\AddPet($requestBody, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\AddPet($requestBody, $accept), $fetch);
     }
 
     /**
      * Update an existing pet by Id.
      *
-     * @param \Petstore\Model\Pet $requestBody
-     * @param array               $accept      Accept content header application/json|application/xml
-     * @param string              $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\UpdatePetBadRequestException
-     * @throws \Petstore\Exception\UpdatePetNotFoundException
-     * @throws \Petstore\Exception\UpdatePetUnprocessableEntityException
+     * @throws Exception\UpdatePetBadRequestException
+     * @throws Exception\UpdatePetNotFoundException
+     * @throws Exception\UpdatePetUnprocessableEntityException
      */
     public function updatePet(Model\Pet $requestBody, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\UpdatePet($requestBody, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdatePet($requestBody, $accept), $fetch);
     }
 
     /**
@@ -58,13 +56,13 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\FindPetsByStatusBadRequestException
+     * @throws Exception\FindPetsByStatusBadRequestException
      */
     public function findPetsByStatus(array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\FindPetsByStatus($queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\FindPetsByStatus($queryParameters, $accept), $fetch);
     }
 
     /**
@@ -78,13 +76,13 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet[]|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\FindPetsByTagsBadRequestException
+     * @throws Exception\FindPetsByTagsBadRequestException
      */
     public function findPetsByTags(array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\FindPetsByTags($queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\FindPetsByTags($queryParameters, $accept), $fetch);
     }
 
     /**
@@ -100,11 +98,11 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\DeletePetBadRequestException
+     * @throws Exception\DeletePetBadRequestException
      */
     public function deletePet(int $petId, array $headerParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\DeletePet($petId, $headerParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\DeletePet($petId, $headerParameters), $fetch);
     }
 
     /**
@@ -114,14 +112,14 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\GetPetByIdBadRequestException
-     * @throws \Petstore\Exception\GetPetByIdNotFoundException
+     * @throws Exception\GetPetByIdBadRequestException
+     * @throws Exception\GetPetByIdNotFoundException
      */
     public function getPetById(int $petId, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\GetPetById($petId, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetPetById($petId, $accept), $fetch);
     }
 
     /**
@@ -137,13 +135,13 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Pet|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Pet|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\UpdatePetWithFormBadRequestException
+     * @throws Exception\UpdatePetWithFormBadRequestException
      */
     public function updatePetWithForm(int $petId, array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\UpdatePetWithForm($petId, $queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdatePetWithForm($petId, $queryParameters, $accept), $fetch);
     }
 
     /**
@@ -158,14 +156,14 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\ApiResponse|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\ApiResponse|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\UploadFileBadRequestException
-     * @throws \Petstore\Exception\UploadFileNotFoundException
+     * @throws Exception\UploadFileBadRequestException
+     * @throws Exception\UploadFileNotFoundException
      */
     public function uploadFile(int $petId, $requestBody = null, array $queryParameters = [], string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\UploadFile($petId, $requestBody, $queryParameters), $fetch);
+        return $this->executeEndpoint(new Endpoint\UploadFile($petId, $requestBody, $queryParameters), $fetch);
     }
 
     /**
@@ -175,23 +173,22 @@ class Client extends \Petstore\Runtime\Client\Client
      */
     public function getInventory(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\GetInventory(), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetInventory(), $fetch);
     }
 
     /**
      * Place a new order in the store.
      *
-     * @param \Petstore\Model\Order|null $requestBody
-     * @param string                     $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Order|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Order|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\PlaceOrderBadRequestException
-     * @throws \Petstore\Exception\PlaceOrderUnprocessableEntityException
+     * @throws Exception\PlaceOrderBadRequestException
+     * @throws Exception\PlaceOrderUnprocessableEntityException
      */
-    public function placeOrder(Model\Order $requestBody = null, string $fetch = self::FETCH_OBJECT)
+    public function placeOrder(?Model\Order $requestBody = null, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\PlaceOrder($requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\PlaceOrder($requestBody), $fetch);
     }
 
     /**
@@ -202,12 +199,12 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\DeleteOrderBadRequestException
-     * @throws \Petstore\Exception\DeleteOrderNotFoundException
+     * @throws Exception\DeleteOrderBadRequestException
+     * @throws Exception\DeleteOrderNotFoundException
      */
     public function deleteOrder(int $orderId, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\DeleteOrder($orderId), $fetch);
+        return $this->executeEndpoint(new Endpoint\DeleteOrder($orderId), $fetch);
     }
 
     /**
@@ -217,42 +214,41 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept  Accept content header application/json|application/xml
      * @param string $fetch   Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\Order|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\Order|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\GetOrderByIdBadRequestException
-     * @throws \Petstore\Exception\GetOrderByIdNotFoundException
+     * @throws Exception\GetOrderByIdBadRequestException
+     * @throws Exception\GetOrderByIdNotFoundException
      */
     public function getOrderById(int $orderId, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\GetOrderById($orderId, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetOrderById($orderId, $accept), $fetch);
     }
 
     /**
      * This can only be done by the logged in user.
      *
-     * @param \Petstore\Model\User|null $requestBody
-     * @param array                     $accept      Accept content header application/json|application/xml
-     * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param array  $accept Accept content header application/json|application/xml
+     * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\User|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function createUser(Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function createUser(?Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\CreateUser($requestBody, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateUser($requestBody, $accept), $fetch);
     }
 
     /**
      * Creates list of users with given input array.
      *
-     * @param \Petstore\Model\User[]|null $requestBody
-     * @param array                       $accept      Accept content header application/json|application/xml
-     * @param string                      $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param Model\User[]|null $requestBody
+     * @param array             $accept      Accept content header application/json|application/xml
+     * @param string            $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\User|null : \Psr\Http\Message\ResponseInterface)
      */
-    public function createUsersWithListInput(array $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
+    public function createUsersWithListInput(?array $requestBody = null, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\CreateUsersWithListInput($requestBody, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\CreateUsersWithListInput($requestBody, $accept), $fetch);
     }
 
     /**
@@ -269,11 +265,11 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\LoginUserBadRequestException
+     * @throws Exception\LoginUserBadRequestException
      */
     public function loginUser(array $queryParameters = [], string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\LoginUser($queryParameters, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\LoginUser($queryParameters, $accept), $fetch);
     }
 
     /**
@@ -283,7 +279,7 @@ class Client extends \Petstore\Runtime\Client\Client
      */
     public function logoutUser(string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\LogoutUser(), $fetch);
+        return $this->executeEndpoint(new Endpoint\LogoutUser(), $fetch);
     }
 
     /**
@@ -294,12 +290,12 @@ class Client extends \Petstore\Runtime\Client\Client
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\DeleteUserBadRequestException
-     * @throws \Petstore\Exception\DeleteUserNotFoundException
+     * @throws Exception\DeleteUserBadRequestException
+     * @throws Exception\DeleteUserNotFoundException
      */
     public function deleteUser(string $username, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\DeleteUser($username), $fetch);
+        return $this->executeEndpoint(new Endpoint\DeleteUser($username), $fetch);
     }
 
     /**
@@ -309,31 +305,30 @@ class Client extends \Petstore\Runtime\Client\Client
      * @param array  $accept   Accept content header application/json|application/xml
      * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
-     * @return ($fetch is 'object' ? \Petstore\Model\User|null : \Psr\Http\Message\ResponseInterface)
+     * @return ($fetch is 'object' ? Model\User|null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\GetUserByNameBadRequestException
-     * @throws \Petstore\Exception\GetUserByNameNotFoundException
+     * @throws Exception\GetUserByNameBadRequestException
+     * @throws Exception\GetUserByNameNotFoundException
      */
     public function getUserByName(string $username, string $fetch = self::FETCH_OBJECT, array $accept = [])
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\GetUserByName($username, $accept), $fetch);
+        return $this->executeEndpoint(new Endpoint\GetUserByName($username, $accept), $fetch);
     }
 
     /**
      * This can only be done by the logged in user.
      *
-     * @param string                    $username    name that need to be deleted
-     * @param \Petstore\Model\User|null $requestBody
-     * @param string                    $fetch       Fetch mode to use (can be OBJECT or RESPONSE)
+     * @param string $username name that need to be deleted
+     * @param string $fetch    Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
      *
-     * @throws \Petstore\Exception\UpdateUserBadRequestException
-     * @throws \Petstore\Exception\UpdateUserNotFoundException
+     * @throws Exception\UpdateUserBadRequestException
+     * @throws Exception\UpdateUserNotFoundException
      */
-    public function updateUser(string $username, Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT)
+    public function updateUser(string $username, ?Model\User $requestBody = null, string $fetch = self::FETCH_OBJECT)
     {
-        return $this->executeEndpoint(new \Petstore\Endpoint\UpdateUser($username, $requestBody), $fetch);
+        return $this->executeEndpoint(new Endpoint\UpdateUser($username, $requestBody), $fetch);
     }
 
     public static function create($httpClient = null, array $additionalPlugins = [], array $additionalNormalizers = [])
@@ -350,7 +345,7 @@ class Client extends \Petstore\Runtime\Client\Client
         }
         $requestFactory = \Http\Discovery\Psr17FactoryDiscovery::findRequestFactory();
         $streamFactory = \Http\Discovery\Psr17FactoryDiscovery::findStreamFactory();
-        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new \Petstore\Normalizer\JaneObjectNormalizer()];
+        $normalizers = [new \Symfony\Component\Serializer\Normalizer\ArrayDenormalizer(), new Normalizer\JaneObjectNormalizer()];
         if (count($additionalNormalizers) > 0) {
             $normalizers = array_merge($normalizers, $additionalNormalizers);
         }

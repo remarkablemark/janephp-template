@@ -71,7 +71,7 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
      *
      * @throws \Petstore\Exception\FindPetsByTagsBadRequestException
      */
-    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, string $contentType = null)
+    protected function transformResponseBody(\Psr\Http\Message\ResponseInterface $response, \Symfony\Component\Serializer\SerializerInterface $serializer, ?string $contentType = null)
     {
         $status = $response->getStatusCode();
         $body = (string) $response->getBody();
