@@ -26,6 +26,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
+          php-version: 8.5
           tools: php-cs-fixer:${{ steps.php-cs-fixer.outputs.version }}
 
       - name: Run php-cs-fixer
