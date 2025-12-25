@@ -50,7 +50,7 @@ jobs:
         with:
           add_options: '-A'
           branch: 'feat/lib'
-          commit_message: 'feat(lib): generate code'
+          commit_message: 'feat(lib): generate PHP code from OpenAPI spec'
           push_options: '--force'
 
       - name: Create Pull Request with GitHub CLI
@@ -59,7 +59,7 @@ jobs:
           gh pr create
           --base master
           --head feat/lib
-          --title 'feat(lib): generate code'
+          --title 'feat(lib): generate PHP code from OpenAPI spec'
           --body ''
         continue-on-error: true
         env:
