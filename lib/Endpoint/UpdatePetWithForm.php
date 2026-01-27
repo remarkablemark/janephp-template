@@ -19,13 +19,11 @@ class UpdatePetWithForm extends \Petstore\Runtime\Client\BaseEndpoint implements
     /**
      * Updates a pet resource based on the form data.
      *
-     * @param int   $petId           ID of pet that needs to be updated
-     * @param array $queryParameters {
-     *
-     * @var string $name Name of pet that needs to be updated
-     * @var string $status Status of pet that needs to be updated
-     *             }
-     *
+     * @param int $petId ID of pet that needs to be updated
+     * @param array{
+     *    "name"?: string, //Name of pet that needs to be updated
+     *    "status"?: string, //Status of pet that needs to be updated
+     * } $queryParameters
      * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(int $petId, array $queryParameters = [], array $accept = [])

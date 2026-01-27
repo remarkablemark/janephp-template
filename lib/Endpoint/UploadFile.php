@@ -18,12 +18,11 @@ class UploadFile extends \Petstore\Runtime\Client\BaseEndpoint implements \Petst
     /**
      * Upload image of the pet.
      *
-     * @param int                                                    $petId           ID of pet to update
+     * @param int                                                    $petId       ID of pet to update
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
-     * @param array                                                  $queryParameters {
-     *
-     * @var string $additionalMetadata Additional Metadata
-     *             }
+     * @param array{
+     *    "additionalMetadata"?: string, //Additional Metadata
+     * } $queryParameters
      */
     public function __construct(int $petId, $requestBody = null, array $queryParameters = [])
     {

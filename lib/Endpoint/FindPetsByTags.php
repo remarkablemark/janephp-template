@@ -18,11 +18,9 @@ class FindPetsByTags extends \Petstore\Runtime\Client\BaseEndpoint implements \P
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
-     * @param array $queryParameters {
-     *
-     * @var array $tags Tags to filter by
-     *            }
-     *
+     * @param array{
+     *    "tags": array, //Tags to filter by
+     * } $queryParameters
      * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(array $queryParameters = [], array $accept = [])
