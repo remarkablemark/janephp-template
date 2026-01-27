@@ -18,12 +18,10 @@ class LoginUser extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     /**
      * Log into the system.
      *
-     * @param array $queryParameters {
-     *
-     * @var string $username The user name for login
-     * @var string $password The password for login in clear text
-     *             }
-     *
+     * @param array{
+     *    "username"?: string, //The user name for login
+     *    "password"?: string, //The password for login in clear text
+     * } $queryParameters
      * @param array $accept Accept content header application/xml|application/json
      */
     public function __construct(array $queryParameters = [], array $accept = [])

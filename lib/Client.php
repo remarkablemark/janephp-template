@@ -48,11 +48,9 @@ class Client extends Runtime\Client\Client
     /**
      * Multiple status values can be provided with comma separated strings.
      *
-     * @param array $queryParameters {
-     *
-     * @var string $status Status values that need to be considered for filter
-     *             }
-     *
+     * @param array{
+     *    "status": string, //Status values that need to be considered for filter
+     * } $queryParameters
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -68,11 +66,9 @@ class Client extends Runtime\Client\Client
     /**
      * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
      *
-     * @param array $queryParameters {
-     *
-     * @var array $tags Tags to filter by
-     *            }
-     *
+     * @param array{
+     *    "tags": array, //Tags to filter by
+     * } $queryParameters
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -88,12 +84,10 @@ class Client extends Runtime\Client\Client
     /**
      * Delete a pet.
      *
-     * @param int   $petId            Pet id to delete
-     * @param array $headerParameters {
-     *
-     * @var string $api_key
-     *             }
-     *
+     * @param int $petId Pet id to delete
+     * @param array{
+     *    "api_key"?: string,
+     * } $headerParameters
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return ($fetch is 'object' ? null : \Psr\Http\Message\ResponseInterface)
@@ -125,13 +119,11 @@ class Client extends Runtime\Client\Client
     /**
      * Updates a pet resource based on the form data.
      *
-     * @param int   $petId           ID of pet that needs to be updated
-     * @param array $queryParameters {
-     *
-     * @var string $name Name of pet that needs to be updated
-     * @var string $status Status of pet that needs to be updated
-     *             }
-     *
+     * @param int $petId ID of pet that needs to be updated
+     * @param array{
+     *    "name"?: string, //Name of pet that needs to be updated
+     *    "status"?: string, //Status of pet that needs to be updated
+     * } $queryParameters
      * @param array  $accept Accept content header application/json|application/xml
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *
@@ -147,13 +139,11 @@ class Client extends Runtime\Client\Client
     /**
      * Upload image of the pet.
      *
-     * @param int                                                    $petId           ID of pet to update
+     * @param int                                                    $petId       ID of pet to update
      * @param string|resource|\Psr\Http\Message\StreamInterface|null $requestBody
-     * @param array                                                  $queryParameters {
-     *
-     * @var string $additionalMetadata Additional Metadata
-     *             }
-     *
+     * @param array{
+     *    "additionalMetadata"?: string, //Additional Metadata
+     * } $queryParameters
      * @param string $fetch Fetch mode to use (can be OBJECT or RESPONSE)
      *
      * @return ($fetch is 'object' ? Model\ApiResponse|null : \Psr\Http\Message\ResponseInterface)
@@ -254,12 +244,10 @@ class Client extends Runtime\Client\Client
     /**
      * Log into the system.
      *
-     * @param array $queryParameters {
-     *
-     * @var string $username The user name for login
-     * @var string $password The password for login in clear text
-     *             }
-     *
+     * @param array{
+     *    "username"?: string, //The user name for login
+     *    "password"?: string, //The password for login in clear text
+     * } $queryParameters
      * @param array  $accept Accept content header application/xml|application/json
      * @param string $fetch  Fetch mode to use (can be OBJECT or RESPONSE)
      *

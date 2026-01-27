@@ -18,11 +18,10 @@ class DeletePet extends \Petstore\Runtime\Client\BaseEndpoint implements \Petsto
     /**
      * Delete a pet.
      *
-     * @param int   $petId            Pet id to delete
-     * @param array $headerParameters {
-     *
-     * @var string $api_key
-     *             }
+     * @param int $petId Pet id to delete
+     * @param array{
+     *    "api_key"?: string,
+     * } $headerParameters
      */
     public function __construct(int $petId, array $headerParameters = [])
     {

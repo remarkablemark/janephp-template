@@ -18,11 +18,9 @@ class FindPetsByStatus extends \Petstore\Runtime\Client\BaseEndpoint implements 
     /**
      * Multiple status values can be provided with comma separated strings.
      *
-     * @param array $queryParameters {
-     *
-     * @var string $status Status values that need to be considered for filter
-     *             }
-     *
+     * @param array{
+     *    "status": string, //Status values that need to be considered for filter
+     * } $queryParameters
      * @param array $accept Accept content header application/json|application/xml
      */
     public function __construct(array $queryParameters = [], array $accept = [])
