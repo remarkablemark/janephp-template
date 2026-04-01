@@ -45,15 +45,15 @@ jobs:
 
       - name: Checkout branch
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-        run: git checkout -b feat/lib
+        run: git checkout -B feat/lib
 
       - name: Git commit and push
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
-          add_options: '-A'
           branch: 'feat/lib'
           commit_message: 'feat(lib): generate PHP code from OpenAPI spec'
+          file_pattern: lib/**/*.php
           push_options: '--force'
 
       - name: Create Pull Request with GitHub CLI

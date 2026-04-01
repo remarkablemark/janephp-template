@@ -30,4 +30,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v7
         with:
           commit_message: 'feat(lib): generate PHP code from OpenAPI spec'
-          add_options: '-A'
+          file_pattern: lib/**/*.php
